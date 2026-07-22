@@ -344,7 +344,7 @@ class PhoneGroupingTtsService : TextToSpeechService() {
             }
 
             val buffer = ByteArray(callback.maxBufferSize)
-            var bytesRead: Int
+            var bytesRead = 0 // BU YERDA XATO TUZATILDI
             while (!stopRequested && raf.read(buffer).also { bytesRead = it } > 0) {
                 callback.audioAvailable(buffer, 0, bytesRead)
             }

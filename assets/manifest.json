@@ -1,0 +1,9 @@
+{
+  "effects": {
+    "footstep": "https://raw.githubusercontent.com/USERNAME/REPO_NAME/main/assets/audio/effects/footstep.mp3",
+    "wall": "https://raw.githubusercontent.com/USERNAME/REPO_NAME/main/assets/audio/effects/wall.mp3",
+    "coin": "https://raw.githubusercontent.com/USERNAME/REPO_NAME/main/assets/audio/effects/coin.mp3",
+    "win": "https://raw.githubusercontent.com/USERNAME/REPO_NAME/main/assets/audio/effects/win.mp3",
+    "start": "https://raw.githubusercontent.com/USERNAME/REPO_NAME/main/assets/audio/effects/start.mp3"
+  }
+}

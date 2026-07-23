@@ -1,0 +1,58 @@
+name: Build APK
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    # Barqaror, pinlangan Ubuntu versiyasi - "ubuntu-latest" ba'zan yangi,
+    # hali barqarorlashmagan versiyaga o'tib ketishi va buziq PPA'larga
+    # duch kelishi mumkin
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Repo'ni klonlash
+        uses: actions/checkout@v4
+
+      - name: Python o'rnatish
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Java (OpenJDK 17) o'rnatish
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Tizim kutubxonalarini o'rnatish
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            git zip unzip openjdk-17-jdk python3-pip autoconf libtool \
+            pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev \
+            libtinfo5 cmake libffi-dev libssl-dev build-essential \
+            ccache libltdl-dev
+
+      - name: Buildozer va Cython o'rnatish
+        run: |
+          pip3 install --upgrade pip
+          pip3 install buildozer cython==0.29.36 virtualenv
+
+      - name: Android litsenziyalarini oldindan qabul qilish
+        run: |
+          yes | pip3 install --upgrade pip
+          mkdir -p ~/.android
+          echo '### User Sources for Android SDK Manager' > ~/.android/repositories.cfg
+
+      - name: APK yig'ish (buildozer)
+        run: |
+          yes | buildozer -v android debug
+
+      - name: APK faylni saqlash (artifact)
+        uses: actions/upload-artifact@v4
+        with:
+          name: ovozli-labirint-apk
+          path: bin/*.apk
